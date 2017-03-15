@@ -20,6 +20,7 @@ provider:
   runtime: nodejs4.3
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    KINESIS_STREAM: ${opt:stage, self:provider.stage}-data-receiver
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -30,6 +31,10 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+    - Effect: Allow
+      Action:
+        - kinesis:*
+      Resource: "arn:aws:kinesis:${opt:region, self:provider.region}:*:stream/${self:provider.environment.KINESIS_STREAM}"
 
 functions:
   create:
@@ -70,6 +75,14 @@ functions:
       - http:
           path: todos/{id}
           method: delete
+          cors: true
+
+  notify:
+    handler: stream/notify.notify
+    events:
+      - http:
+          path: notify
+          method: post
           cors: true
 
 resources:

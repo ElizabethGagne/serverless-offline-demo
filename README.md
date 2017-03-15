@@ -15,7 +15,7 @@ Test your service locally, without having to deploy it first.
 ## Setup & Run service offline
 
 ```bash
-docker-compose up
+sh start.sh
 ```
 
 ## Usage
@@ -73,3 +73,8 @@ curl -X DELETE -H "Content-Type:application/json" http://0.0.0.0:3000/todos/<id>
 ```
 
 No output
+
+### Send msg to a kinesis stream
+```bash
+curl -X POST -H "Content-Type:application/json" http://0.0.0.0:3000/notify --data '{ "text": "Learn Serverless Kinesis" }'
+```

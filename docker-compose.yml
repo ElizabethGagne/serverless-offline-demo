@@ -7,11 +7,13 @@ services:
      - "3000:3000"
     depends_on:
      - db
+     - kinesis
     volumes:
      - ~/.aws/:/root/.aws:ro
     environment:
      # Environment variables to configure the app on startup.
      - DYNAMO_HOST=db
+     - KINESIS_HOST=kinesis
   db:
     container_name: db
     build: ./serverless-dynamodb
@@ -19,3 +21,10 @@ services:
      - "8000:8000"
     volumes:
      - ../serverless-code/offline/:/app/offline
+
+  kinesis:
+    container_name: kinesalite
+    image: instructure/kinesalite
+    #command: "--path /var/lib/kinesalite aws --endpoint-url http://0.0.0.0:4567/ kinesis create-stream --stream-name=mystream --shard-count=1"
+    ports:
+     - "4567:4567"
