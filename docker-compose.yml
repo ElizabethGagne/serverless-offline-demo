@@ -25,6 +25,20 @@ services:
   kinesis:
     container_name: kinesalite
     image: instructure/kinesalite
-    #command: "--path /var/lib/kinesalite aws --endpoint-url http://0.0.0.0:4567/ kinesis create-stream --stream-name=mystream --shard-count=1"
     ports:
      - "4567:4567"
+
+  kinesis-consumer:
+    container_name: kinesis-consumer
+    build: ./kinesis-consumer
+    depends_on:
+     - db
+     - kinesis
+    environment:
+     - IS_OFFLINE=true
+     - KINESIS_STREAM=dev-data-receiver
+     - DYNAMO_ENDPOINT=http://db:8000/
+     - KINESIS_ENDPOINT=http://kinesis:4567/
+     - AWS_REGION=us-east-1
+    volumes:
+     - ~/.aws/:/root/.aws:ro

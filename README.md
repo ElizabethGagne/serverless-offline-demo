@@ -1,4 +1,4 @@
-# Serverless REST API with DynamoDB and offline support (Containerized)
+# Serverless REST API with DynamoDB, Kinesis and offline support (Containerized)
 
 This example demonstrates how to run a service locally, using the
 [serverless-offline](https://github.com/dherault/serverless-offline) plugin. It
@@ -6,7 +6,10 @@ provides a REST API to manage Todos stored in a DynamoDB, similar to the
 [aws-node-rest-api-with-dynamodb](https://github.com/serverless/examples/tree/master/aws-node-rest-api-with-dynamodb)
 example. A local DynamoDB instance is provided by the
 [serverless-dynamodb-local](https://github.com/99xt/serverless-dynamodb-local)
-plugin.
+plugin.  It provides a REST API to send msg to a Kinesis Stream and a local Kinesis stream instance is running locally by using the docker image
+[instructure/kinesalite](https://hub.docker.com/r/instructure/kinesalite/). 
+A Kinesis Stream consumer use the npm module [kinesis-client-library](https://www.npmjs.com/package/kinesis-client-library) 
+
 
 ## Use-case
 
