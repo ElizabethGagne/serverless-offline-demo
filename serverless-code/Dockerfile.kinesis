@@ -1,0 +1,22 @@
+FROM node:7.6.0-alpine
+
+RUN apk add --no-cache --virtual .persistent-deps \
+        curl \
+        bash \
+        python \
+        py-pip \
+    && pip install awscli \
+    # Install node packages
+    && npm install --silent --save-dev -g \
+        serverless \
+        serverless-dynamodb-local \
+        serverless-offline \
+        aws-sdk \
+        uuid \
+        @rabblerouser/local-kinesis-lambda-runner
+
+# Set up the application directory
+COPY . /app
+WORKDIR /app
+
+CMD ["/app/cmd.sh"]

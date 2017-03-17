@@ -78,12 +78,17 @@ functions:
           cors: true
 
   notify:
-    handler: stream/notify.notify
+    handler: stream/stream.notify
     events:
       - http:
           path: notify
           method: post
           cors: true
+
+  consumer:
+      handler: stream/consumer.consumer
+      events:
+        - stream: arn:aws:kinesis:${opt:region, self:provider.region}:${env:ACCOUNT_ID}:stream/${self:provider.environment.KINESIS_STREAM}
 
 resources:
   Resources:

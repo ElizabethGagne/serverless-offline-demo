@@ -14,6 +14,7 @@ services:
      # Environment variables to configure the app on startup.
      - DYNAMO_HOST=db
      - KINESIS_HOST=kinesis
+     - ACCOUNT_ID=00000000
   db:
     container_name: db
     build: ./serverless-dynamodb
@@ -30,15 +31,30 @@ services:
 
   kinesis-consumer:
     container_name: kinesis-consumer
-    build: ./kinesis-consumer
+    build:
+      context: ./serverless-code
+      dockerfile: Dockerfile.kinesis
+    restart: always
+    environment:
+     # Environment variables to configure the app on startup.
+     - IS_RUN_KINESIS_LAMBDA_RUNNER=true
+     - STREAM_NAME=dev-data-receiver
+     - KINESIS_ENDPOINT=http://kinesis:4567/
     depends_on:
      - db
      - kinesis
-    environment:
-     - IS_OFFLINE=true
-     - KINESIS_STREAM=dev-data-receiver
-     - DYNAMO_ENDPOINT=http://db:8000/
-     - KINESIS_ENDPOINT=http://kinesis:4567/
-     - AWS_REGION=us-east-1
-    volumes:
-     - ~/.aws/:/root/.aws:ro
+
+#  kinesis-consumer:
+#    container_name: kinesis-consumer
+#    build: ./kinesis-consumer
+#    depends_on:
+#     - db
+#     - kinesis
+#    environment:
+#     - IS_OFFLINE=true
+#     - KINESIS_STREAM=dev-data-receiver
+#     - DYNAMO_ENDPOINT=http://db:8000/
+#     - KINESIS_ENDPOINT=http://kinesis:4567/
+#     - AWS_REGION=us-east-1
+#    volumes:
+#     - ~/.aws/:/root/.aws:ro
