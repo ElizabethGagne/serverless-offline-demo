@@ -8,7 +8,8 @@ example. A local DynamoDB instance is provided by the
 [serverless-dynamodb-local](https://github.com/99xt/serverless-dynamodb-local)
 plugin.  It provides a REST API to send msg to a Kinesis Stream and a local Kinesis stream instance is running locally by using the docker image
 [instructure/kinesalite](https://hub.docker.com/r/instructure/kinesalite/). 
-A Kinesis Stream consumer use the npm module [kinesis-client-library](https://www.npmjs.com/package/kinesis-client-library) 
+A Kinesis Stream consumer use the npm module [local-kinesis-lambda-runner](https://github.com/rabblerouser/local-kinesis-lambda-runner)
+to poll the kisesis stream and trigger the associated lambda function.
 
 
 ## Use-case
