@@ -11,9 +11,12 @@ RUN apk add --no-cache --virtual .persistent-deps \
         aws-sdk \
         uuid
 
+
 # Set up the application directory
 COPY . /app
 WORKDIR /app
+
+RUN cd /app/kinesis && npm pack && npm install -g kinesis-interface-1.0.0.tgz
 
 EXPOSE 3000
 

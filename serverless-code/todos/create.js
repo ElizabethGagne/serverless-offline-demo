@@ -5,8 +5,8 @@ const dynamodb = require('./dynamodb');
 
 module.exports.create = (event, context, callback) => {
   const timestamp = new Date().getTime();
-  console.info('Received body: ' + JSON.stringify(event.body));
-  const data = JSON.parse(JSON.stringify(event.body));
+  console.info('Received body: ' + event.body);
+  const data = JSON.parse(event.body);
   if (typeof data.text !== 'string') {
     console.error('Validation Failed');
     callback(new Error('Couldn\'t create the todo item.'));
