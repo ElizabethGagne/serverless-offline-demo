@@ -13,10 +13,10 @@ RUN apk add --no-cache --virtual .persistent-deps \
 
 
 # Set up the application directory
-COPY . /app
+COPY . /app/
 WORKDIR /app
 
-RUN cd /app/kinesis && npm pack && npm install -g kinesis-interface-1.0.0.tgz
+RUN ln -s /usr/local/lib/node_modules /app/node_modules && cd /app/kinesis && npm pack && npm install -g kinesis-interface-1.0.0.tgz
 
 EXPOSE 3000
 

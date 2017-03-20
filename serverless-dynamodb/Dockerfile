@@ -10,10 +10,11 @@ RUN apt-get update
 RUN apt-get install -y -q default-jre
 
 # Set up the application directory
-COPY . /app
+COPY . /app/
 WORKDIR /app
 
 # Install local dynamodb
+RUN ln -s /usr/local/lib/node_modules /app/node_modules
 RUN serverless dynamodb install
 
 EXPOSE 8000
