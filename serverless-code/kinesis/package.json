@@ -9,5 +9,9 @@
   "dependencies": {
     "aws-sdk": "^2.12.0"
   },
-  "main" : "kinesis.js"
+  "main" : "lib/kinesis.js",
+  "types" : "lib/kinesis",
+  "files" : [
+    "lib/"
+  ]
 }

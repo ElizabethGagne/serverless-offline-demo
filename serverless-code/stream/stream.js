@@ -21,7 +21,7 @@ module.exports.notify = (event, context, callback) => {
     };
 
     // Send the notify to kinesis
-    kinesis.putRecord(params, (error, result) => {
+    kinesis.sendMsg(params, (error, result) => {
         // handle potential errors
         if (error) {
             console.error(error);

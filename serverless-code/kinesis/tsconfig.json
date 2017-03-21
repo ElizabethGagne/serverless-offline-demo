@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "declaration" : true,
+    "outDir": "lib/"
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "files": [
+    "kinesis.ts"
+  ]
+}
