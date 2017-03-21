@@ -8,7 +8,9 @@ RUN apk add --no-cache --virtual .persistent-deps \
         kinesis-client-library
 
 # Set up the application directory
-COPY . /app
+COPY . /app/
 WORKDIR /app
+
+RUN ln -s /usr/local/lib/node_modules /app/node_modules
 
 CMD ["/app/cmd.sh"]
