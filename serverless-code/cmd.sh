@@ -10,5 +10,5 @@ if [ "$IS_RUN_KINESIS_LAMBDA_RUNNER" = "true" ]; then
     exec node kinesis_lambda_runner.js
 else
     echo "Running serverless in offline mode"
-    exec serverless --host 0.0.0.0 offline start
+    exec serverless --host 0.0.0.0 offline start --migrate true
 fi

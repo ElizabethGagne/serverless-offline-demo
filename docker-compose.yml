@@ -5,23 +5,15 @@ services:
     build: ./serverless-code
     ports:
      - "3000:3000"
+     - "8000:8000"
     depends_on:
-     - db
      - kinesis
     volumes:
      - ~/.aws/:/root/.aws:ro
     environment:
      # Environment variables to configure the app on startup.
-     - DYNAMO_HOST=db
+     - DYNAMO_HOST=localhost
      - KINESIS_HOST=kinesis
-     - ACCOUNT_ID=00000000
-  db:
-    container_name: db
-    build: ./serverless-dynamodb
-    ports:
-     - "8000:8000"
-    volumes:
-     - ../serverless-code/offline/:/app/offline
 
   kinesis:
     container_name: kinesalite
@@ -41,20 +33,4 @@ services:
      - STREAM_NAME=dev-data-receiver
      - KINESIS_ENDPOINT=http://kinesis:4567/
     depends_on:
-     - db
      - kinesis
-
-#  kinesis-consumer:
-#    container_name: kinesis-consumer
-#    build: ./kinesis-consumer
-#    depends_on:
-#     - db
-#     - kinesis
-#    environment:
-#     - IS_OFFLINE=true
-#     - KINESIS_STREAM=dev-data-receiver
-#     - DYNAMO_ENDPOINT=http://db:8000/
-#     - KINESIS_ENDPOINT=http://kinesis:4567/
-#     - AWS_REGION=us-east-1
-#    volumes:
-#     - ~/.aws/:/root/.aws:ro

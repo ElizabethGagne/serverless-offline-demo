@@ -3,6 +3,7 @@ service: serverless-rest-api-with-dynamodb
 frameworkVersion: ">=1.1.0 <2.0.0"
 
 plugins:
+  - serverless-dynamodb-local
   - serverless-offline
 
 custom:
@@ -87,7 +88,13 @@ functions:
   consumer:
       handler: stream/consumer.consumer
       events:
-        - stream: arn:aws:kinesis:${opt:region, self:provider.region}:${env:ACCOUNT_ID}:stream/${self:provider.environment.KINESIS_STREAM}
+        - stream:
+          type: kinesis
+          arn:
+            Fn::GetAtt:
+              - ResourcesKinesisStream
+              - Arn
+          batchSize: 1
 
 resources:
   Resources:
@@ -107,3 +114,9 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
+
+    ResourcesKinesisStream:
+      Type: AWS::Kinesis::Stream
+      Properties:
+        Name: ${self:provider.environment.KINESIS_STREAM}
+        ShardCount: 1
