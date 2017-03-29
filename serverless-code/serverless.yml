@@ -15,6 +15,23 @@ custom:
     migration:
       dir: offline/migrations
 
+package:
+  exclude:
+    - cmd.sh
+    - Dockerfile
+    - Dockerfile.kinesis
+    - offline/**
+  include:
+    - node_modules/**
+    - '!node_modules/serverless/**'
+    - '!node_modules/serverless-offline/**'
+    - '!node_modules/serverless-dynamodb-local/**'
+    - '!node_modules/typings/**'
+    - '!node_modules/typescript/**'
+    - '!node_modules/npm/**'
+    - '!node_modules/@types/**'
+
+
 provider:
   name: aws
   runtime: nodejs4.3
@@ -86,9 +103,9 @@ functions:
           cors: true
 
   consumer:
-      handler: stream/consumer.consumer
-      events:
-        - stream:
+    handler: stream/consumer.consumer
+    events:
+      - stream:
           type: kinesis
           arn:
             Fn::GetAtt:
