@@ -4,10 +4,14 @@ RUN npm install --silent --save-dev -g \
         serverless@1.9.0 \
         serverless-dynamodb-local@0.2.20 \
         serverless-offline@3.13.1 \
+        serverless-webpack \
         aws-sdk \
         uuid \
         typescript \
         typings \
+        webpack \
+        ts-loader \
+        json-loader \
         @types/aws-sdk \
         @types/es6-promise \
     && apt-get update && apt-get install -y -q default-jre

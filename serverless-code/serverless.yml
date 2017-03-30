@@ -3,6 +3,7 @@ service: serverless-rest-api-with-dynamodb
 frameworkVersion: ">=1.1.0 <2.0.0"
 
 plugins:
+  - serverless-webpack
   - serverless-dynamodb-local
   - serverless-offline
 
@@ -14,23 +15,6 @@ custom:
       migration: true
     migration:
       dir: offline/migrations
-
-package:
-  exclude:
-    - cmd.sh
-    - Dockerfile
-    - Dockerfile.kinesis
-    - offline/**
-  include:
-    - node_modules/**
-    - '!node_modules/serverless/**'
-    - '!node_modules/serverless-offline/**'
-    - '!node_modules/serverless-dynamodb-local/**'
-    - '!node_modules/typings/**'
-    - '!node_modules/typescript/**'
-    - '!node_modules/npm/**'
-    - '!node_modules/@types/**'
-
 
 provider:
   name: aws
@@ -87,7 +71,7 @@ functions:
           cors: true
 
   delete:
-    handler: todos/delete.delete
+    handler: todos/delete.mydelete
     events:
       - http:
           path: todos/{id}

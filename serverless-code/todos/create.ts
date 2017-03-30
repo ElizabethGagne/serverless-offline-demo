@@ -1,9 +1,10 @@
 'use strict';
 
-const uuid = require('uuid');
-const dynamodb = require('./dynamodb');
+import * as uuid from 'uuid';
+import * as dynamodb from './dynamodb';
 
-module.exports.create = (event, context, callback) => {
+export function create(event, context, callback){
+
   const timestamp = new Date().getTime();
   console.info('Received body: ' + event.body);
   const data = JSON.parse(event.body);
@@ -25,19 +26,16 @@ module.exports.create = (event, context, callback) => {
   };
 
   // write the todo to the database
-  dynamodb.put(params, (error, result) => {
-    // handle potential errors
-    if (error) {
-      console.error(error);
-      callback(new Error('Couldn\'t create the todo item.'));
-      return;
-    }
-
+  dynamodb.put(params).promise().then((result) => {
     // create a response
     const response = {
       statusCode: 200,
-      body: JSON.stringify(result.Item),
+      body: JSON.stringify(result),
     };
     callback(null, response);
+  }).catch((error) => {
+    console.error(error);
+    callback(new Error('Couldn\'t create the todo item.'));
+    return;
   });
-};
+}

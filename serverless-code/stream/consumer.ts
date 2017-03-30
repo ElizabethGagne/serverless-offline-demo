@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports.consumer = (event, context, callback) => {
+export function consumer(event, context, callback) {
 
     // print out the event information on the console (so that we can see it in the CloudWatch logs
     console.log("The following data was written to the Kinesis stream data-receiver:\n" + JSON.stringify(event.Records[0].kinesis, null, 2));

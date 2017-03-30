@@ -1,8 +1,8 @@
 'use strict';
 
-const dynamodb = require('./dynamodb');
+import * as dynamodb from './dynamodb';
 
-module.exports.update = (event, context, callback) => {
+export function update(event, context, callback) {
   const timestamp = new Date().getTime();
   const data = JSON.parse(event.body);
 
@@ -31,19 +31,16 @@ module.exports.update = (event, context, callback) => {
   };
 
   // update the todo in the database
-  dynamodb.update(params, (error, result) => {
-    // handle potential errors
-    if (error) {
-      console.error(error);
-      callback(new Error('Couldn\'t update the todo item.'));
-      return;
-    }
-
+  dynamodb.update(params).promise().then((result) => {
     // create a response
     const response = {
       statusCode: 200,
       body: JSON.stringify(result.Attributes),
     };
     callback(null, response);
+  }).catch((error) => {
+    console.error(error);
+    callback(new Error('Couldn\'t update the todo item.'));
+    return;
   });
 };

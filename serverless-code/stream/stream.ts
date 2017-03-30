@@ -1,9 +1,9 @@
 'use strict'
 
-const kinesis = require('kinesis-interface');
-const uuid = require('uuid');
+import * as kinesis from 'kinesis-interface';
+import * as uuid from 'uuid';
 
-module.exports.notify = (event, context, callback) => {
+export function notify(event, context, callback){
 
     console.info('Received body: ' + event.body);
     const data = JSON.parse(event.body);
@@ -38,6 +38,6 @@ module.exports.notify = (event, context, callback) => {
         callback(null, response);
 
     });
-};
+}
 
 
